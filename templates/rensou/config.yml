@@ -1,5 +1,5 @@
-name: oracle databases
+name: rensou
 description: |
   oracle databases
-version: 12.2.0.1-ee
+version: v1.0
 category: Applications
