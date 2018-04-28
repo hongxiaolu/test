@@ -1,0 +1,421 @@
+version: '2'
+services:
+  bh-eureka-server:
+    image: 10.253.127.140/bighealth/bh-eureka-server:v1.0
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-action-client:
+    image: 10.253.127.140/bighealth/bh-serv-action-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-other-deal:
+    image: 10.253.127.140/bighealth/bh-serv-other-deal:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-log:bh-serv-log
+    - bh-serv-auth:bh-serv-auth
+    - bh-serv-architect:bh-serv-architect
+    - bh-serv-da:bh-serv-da
+    - bh-serv-cache:bh-serv-cache
+    - bh-serv-index:bh-serv-index
+    - bh-serv-import:bh-serv-import
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-ehr-manager:
+    image: 10.253.127.140/bighealth/bh-serv-ehr-manager:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-oms-deal:
+    image: 10.253.127.140/bighealth/bh-serv-oms-deal:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-log:bh-serv-log
+    - bh-serv-auth:bh-serv-auth
+    - bh-serv-architect:bh-serv-architect
+    - bh-serv-index:bh-serv-index
+    - bh-serv-da:bh-serv-da
+    - bh-serv-cache:bh-serv-cache
+    - bh-serv-import:bh-serv-import
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-gateway-app:
+    image: 10.253.127.140/bighealth/bh-gateway-app:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-user-client:bh-serv-user-client
+    - bh-serv-other-client:bh-serv-other-client
+    - bh-serv-action-client:bh-serv-action-client
+    - bh-serv-ehr-client:bh-serv-ehr-client
+    - bh-serv-oms-client:bh-serv-oms-client
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-auth:
+    image: 10.253.127.140/bighealth/bh-serv-auth:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-other-client:
+    image: 10.253.127.140/bighealth/bh-serv-other-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-other-manager:
+    image: 10.253.127.140/bighealth/bh-serv-other-manager:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  lb-user:
+    image: 10.253.127.140/rancher/lb-service-haproxy:v0.7.15
+    ports:
+    - 8081:8081/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: hostip=10.253.48.9
+      io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.agent_service.drain_provider: 'true'
+      io.rancher.container.create_agent: 'true'
+  bh-serv-da:
+    image: 10.253.127.140/bighealth/bh-serv-da:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-manager-deal:
+    image: 10.253.127.140/bighealth/bh-serv-manager-deal:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-log:bh-serv-log
+    - bh-serv-auth:bh-serv-auth
+    - bh-serv-architect:bh-serv-architect
+    - bh-serv-index:bh-serv-index
+    - bh-serv-da:bh-serv-da
+    - bh-serv-cache:bh-serv-cache
+    - bh-serv-import:bh-serv-import
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-user-client:
+    image: 10.253.127.140/bighealth/bh-serv-user-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-action-manager:
+    image: 10.253.127.140/bighealth/bh-serv-action-manager:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-import:
+    image: 10.253.127.140/bighealth/bh-serv-import:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  lb-manager:
+    image: 10.253.127.140/rancher/lb-service-haproxy:v0.7.15
+    ports:
+    - 8080:8080/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: hostip=10.253.48.9
+      io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.agent_service.drain_provider: 'true'
+      io.rancher.container.create_agent: 'true'
+  bh-serv-action-deal:
+    image: 10.253.127.140/bighealth/bh-serv-action-deal:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-log:bh-serv-log
+    - bh-serv-auth:bh-serv-auth
+    - bh-serv-architect:bh-serv-architect
+    - bh-serv-index:bh-serv-index
+    - bh-serv-da:bh-serv-da
+    - bh-serv-cache:bh-serv-cache
+    - bh-serv-import:bh-serv-import
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-gateway-admin:
+    image: 10.253.127.140/bighealth/bh-gateway-admin:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-thirdparty-client:bh-thirdparty-client
+    - bh-serv-action-manager:bh-serv-action-manager
+    - bh-serv-other-manager:bh-serv-other-manager
+    - bh-serv-ehr-manager:bh-serv-ehr-manager
+    - bh-serv-oms-manager:bh-serv-oms-manager
+    - bh-serv-manager-client:bh-serv-manager-client
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-cache:
+    image: 10.253.127.140/bighealth/bh-serv-cache:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-ehr-deal:
+    image: 10.253.127.140/bighealth/bh-serv-ehr-deal:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-log:bh-serv-log
+    - bh-serv-auth:bh-serv-auth
+    - bh-serv-architect:bh-serv-architect
+    - bh-serv-index:bh-serv-index
+    - bh-serv-da:bh-serv-da
+    - bh-serv-cache:bh-serv-cache
+    - bh-serv-import:bh-serv-import
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-architect:
+    image: 10.253.127.140/bighealth/bh-serv-architect:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-index:
+    image: 10.253.127.140/bighealth/bh-serv-index:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-manager:
+    image: 10.253.127.140/bighealth/bh-manager:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-gateway-admin:bh-gateway-admin
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-ehr-client:
+    image: 10.253.127.140/bighealth/bh-serv-ehr-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-config-server:
+    image: 10.253.127.140/bighealth/bh-config-server:v1.0
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  lb-open-api:
+    image: 10.253.127.140/rancher/lb-service-haproxy:v0.7.15
+    ports:
+    - 8082:8082/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: hostip=10.253.48.9
+      io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.agent_service.drain_provider: 'true'
+      io.rancher.container.create_agent: 'true'
+  bh-serv-log:
+    image: 10.253.127.140/bighealth/bh-serv-log:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-eureka-server:bh-eureka-server
+    - bh-eureka-server-ha:bh-eureka-server-ha
+    - bh-config-server:bh-config-server
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-eureka-server-ha:
+    image: 10.253.127.140/bighealth/bh-eureka-server-ha:v1.0
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  lb-thirdparty:
+    image: 10.253.127.140/rancher/lb-service-haproxy:v0.7.15
+    ports:
+    - 8083:8083/tcp
+    labels:
+      io.rancher.scheduler.affinity:host_label: hostip=10.253.48.9
+      io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.agent_service.drain_provider: 'true'
+      io.rancher.container.create_agent: 'true'
+  bh-user:
+    image: 10.253.127.140/bighealth/bh-user:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-gateway-app:bh-gateway-app
+    command:
+    - /usr/local/nginx/sbin/nginx
+    - -g
+    - daemon off;
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-manager-client:
+    image: 10.253.127.140/bighealth/bh-serv-manager-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-oms-manager:
+    image: 10.253.127.140/bighealth/bh-serv-oms-manager:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-open-api:
+    image: 10.253.127.140/bighealth/bh-thirdparty:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-gateway-admin:bh-gateway-admin
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-thirdparty-client:
+    image: 10.253.127.140/bighealth/bh-thirdparty-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-serv-oms-client:
+    image: 10.253.127.140/bighealth/bh-serv-oms-client:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-serv-ehr-deal:bh-serv-ehr-deal
+    - bh-serv-action-deal:bh-serv-action-deal
+    - bh-serv-oms-deal:bh-serv-oms-deal
+    - bh-serv-manager-deal:bh-serv-manager-deal
+    - bh-serv-other-deal:bh-serv-other-deal
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always
+  bh-thirdparty:
+    image: 10.253.127.140/bighealth/bh-thirdparty:v1.0
+    stdin_open: true
+    tty: true
+    links:
+    - bh-gateway-admin:bh-gateway-admin
+    labels:
+      io.rancher.scheduler.affinity:host_label: group=group1
+      io.rancher.container.pull_image: always

@@ -1,0 +1,530 @@
+.catalog:
+  name: big-health
+  version: v1.0
+  description: |
+    大健康平台.
+  questions:
+    - variable: "managerhostip"
+      description: "manager 应用负载需要调度的主机地址 "
+      label: "manager host ip"
+      type: "string"
+      required: true
+      default: "10.253.48.9"
+    - variable: "managerport"
+      description: "manager 负载 映射主机端口"
+      label: "manager port"
+      type: "int"
+      required: true
+      default: 8080
+    - variable: "userhostip"
+      description: "user 应用负载需要调度的主机地址 "
+      label: "user host ip"
+      type: "string"
+      required: true
+      default: "10.253.48.9"
+    - variable: "userport"
+      description: "user 负载 映射主机端口"
+      label: "user port"
+      type: "int"
+      required: true
+      default: 8081
+    - variable: "openapihostip"
+      description: "openapi 应用负载需要调度的主机地址"
+      label: "openapi host ip"
+      type: "string"
+      required: true
+      default: "10.253.48.9"
+    - variable: "openapiport"
+      description: "openapi 负载 映射主机端口"
+      label: "openapi port"
+      type: "int"
+      required: true
+      default: 8082
+    - variable: "thirdparthostip"
+      description: "thirdpart 应用负载需要调度的主机地址"
+      label: "thirdpart host ip"
+      type: "string"
+      required: true
+      default: "10.253.48.9"
+    - variable: "thirdpartyport"
+      description: "thirdparty 负载 映射主机端口"
+      label: "thirdparty port"
+      type: "int"
+      required: true
+      default: 8083
+    - variable: "harborhost"
+      description: "harbor ip地址"
+      label: "harbor host"
+      type: "string"
+      required: true
+      default: "10.253.127.140"
+    - variable: "labels"
+      description: "应用需要调度的主机含有的标签 "
+      label: "labels"
+      type: "string"
+      required: true
+      default: "group=group1"
+bh-eureka-server:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8701
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-action-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8520
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-other-deal:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8620
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-ehr-manager:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8610
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-oms-deal:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8565
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-gateway-app:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8700
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-auth:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8640
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-other-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8615
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-other-manager:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8625
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+lb-user:
+  scale: 1
+  start_on_create: true
+  lb_config:
+    certs: []
+    port_rules:
+    - priority: 4
+      protocol: http
+      service: bh-user
+      source_port: ${userport}
+      target_port: 80
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 2000
+    port: 42
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-da:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8630
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-manager-deal:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8551
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-user-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 10001
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-action-manager:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8530
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-import:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8575
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+lb-manager:
+  scale: 1
+  start_on_create: true
+  lb_config:
+    certs: []
+    port_rules:
+    - priority: 2
+      protocol: http
+      service: bh-manager
+      source_port: ${managerport}
+      target_port: 8080
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 2000
+    port: 42
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-action-deal:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8525
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-gateway-admin:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8705
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-cache:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8505
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-ehr-deal:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8605
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-architect:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8500
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-index:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8570
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-manager:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8080
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-ehr-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8600
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-config-server:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8401
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+lb-open-api:
+  scale: 1
+  start_on_create: true
+  lb_config:
+    certs: []
+    port_rules:
+    - priority: 5
+      protocol: http
+      service: bh-open-api
+      source_port: ${openapiport}
+      target_port: 8088
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 2000
+    port: 42
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-log:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8585
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-eureka-server-ha:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8702
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+lb-thirdparty:
+  scale: 1
+  start_on_create: true
+  lb_config:
+    certs: []
+    port_rules:
+    - priority: 3
+      protocol: http
+      service: bh-thirdparty
+      source_port: ${thirdpartyport}
+      target_port: 8080
+  health_check:
+  healthy_threshold: 2
+  response_timeout: 2000
+  port: 42
+  unhealthy_threshold: 3
+  initializing_timeout: 60000
+  interval: 2000
+  strategy: recreate
+  reinitializing_timeout: 60000
+bh-user:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 80
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-manager-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8541
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-oms-manager:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8580
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-open-api:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8001
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-thirdparty-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8595
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-serv-oms-client:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8560
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
+bh-thirdparty:
+  scale: 2
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8080
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    strategy: recreate
+    reinitializing_timeout: 60000
