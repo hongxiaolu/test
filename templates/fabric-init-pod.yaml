@@ -7,11 +7,11 @@ metadata:
 spec:
   containers:
     - name: fabric-init
-      image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
+      image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
       imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
       env:
         - name: FABRIC_CHANNEL
-          value: {{ .Values.fabricChannel | quote }}
+          value: bankchannel
       command: ["/var/hyperledger/production/config/fabric-init.sh"]
       volumeMounts:
         - name: fabric-network-root
@@ -25,7 +25,7 @@ spec:
         periodSeconds: 5
   initContainers:
     - name: check-generator
-      image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
+      image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
       imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
       command: ['sh', '-c', 'sleep 5; until [ -f /var/hyperledger/production/GENERATION-COMPLETED ]; do echo waiting for fabric-network-generator; sleep 5; done; sleep 5;']
       volumeMounts:
