@@ -27,8 +27,8 @@ spec:
     spec:
       containers:
         - name: network01-explorer-mysql
-          image: {{ $.Values.dockerImageRegistry }}/fabric-explorer-mysql:1.0
-          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-explorer-mysql:1.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3306
               name: mysql-port

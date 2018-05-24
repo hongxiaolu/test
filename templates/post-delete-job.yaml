@@ -24,11 +24,11 @@ spec:
       restartPolicy: Never
       containers:
       - name: post-delete-job
-        image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
+        image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
         # For safety, we don't really delete the data folder but just rename with suffix and timestamp
         command: ["/bin/sh","-c"]
-        args: ['mv /data/fabric/{{ $.Values.fabricNetwork }} /data/fabric/{{ $.Values.fabricNetwork }}-deleted-{{ now | date "2006-01-02-150405"}}']
-        # command: ['mv','/data/fabric/{{ $.Values.fabricNetwork }}', '/data/fabric/{{ $.Values.fabricNetwork }}-deleted-{{ now | date "2006-01-02-150405"}}']
+        args: ['mv /data/fabric/network01 /data/fabric/network01-deleted-{{ now | date "2006-01-02-150405"}}']
+        # command: ['mv','/data/fabric/network01', '/data/fabric/network01-deleted-{{ now | date "2006-01-02-150405"}}']
         volumeMounts:
           - name: fabric-root
             mountPath: /data/fabric

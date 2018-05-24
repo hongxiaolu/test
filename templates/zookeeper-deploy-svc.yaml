@@ -38,8 +38,8 @@ spec:
     spec:
       containers:
         - name: {{ $network }}-zookeeper{{ $zkIndex }}
-          image: {{ $.Values.dockerImageRegistry }}/fabric-zookeeper:x86_64-{{ $.Values.thirdPartyImageVersion }}
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-zookeeper:x86_64-{{ $.Values.thirdPartyImageVersion }}
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 2181
             name: client-port
@@ -66,8 +66,8 @@ spec:
               mountPath: /data-log
       initContainers:
         - name: check-fabric-init
-          image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', 'sleep 5; until ls /var/hyperledger/production/INIT-COMPLETED; do echo waiting for fabric-init; sleep 5; done; sleep 5;']
           volumeMounts:
             - name: fabric-network-root

@@ -8,7 +8,7 @@ spec:
   containers:
     - name: fabric-init
       image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
-      imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+      imagePullPolicy: IfNotPresent
       env:
         - name: FABRIC_CHANNEL
           value: bankchannel
@@ -26,7 +26,7 @@ spec:
   initContainers:
     - name: check-generator
       image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
-      imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+      imagePullPolicy: IfNotPresent
       command: ['sh', '-c', 'sleep 5; until [ -f /var/hyperledger/production/GENERATION-COMPLETED ]; do echo waiting for fabric-network-generator; sleep 5; done; sleep 5;']
       volumeMounts:
         - name: fabric-network-root
@@ -35,6 +35,6 @@ spec:
   volumes:
     - name: fabric-network-root
       hostPath:
-        path: /data/fabric/{{ $.Values.fabricNetwork }}
+        path: /data/fabric/network01
         # Below type field is necessary to avoid auto creation of dir if not present during init container check
         type: Directory

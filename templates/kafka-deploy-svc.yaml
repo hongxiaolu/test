@@ -35,8 +35,8 @@ spec:
     spec:
       containers:
         - name: network01-kafka{{ $brokerIndex }}
-          image: {{ $.Values.dockerImageRegistry }}/fabric-kafka:x86_64-{{ $.Values.thirdPartyImageVersion }}
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-kafka:x86_64-{{ $.Values.thirdPartyImageVersion }}
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: {{ index $portList $loopIndex }}
             name: kafka-port
@@ -73,7 +73,7 @@ spec:
       initContainers:
         - name: check-zookeeper
           image: registry.cn-shenzhen.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.0.0
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c']
           args: ['sleep 5; until echo stat | nc -w 3 network01-zookeeper1 2181; do echo waiting for network01-zookeeper1; sleep 3; done; until echo stat | nc -w 3 network01-zookeeper2 2181; do echo waiting for network01-zookeeper2; sleep 3; done; until echo stat | nc -w 3 network01-zookeeper3 2181; do echo waiting for network01-zookeeper3; sleep 3; done; sleep 5;']
       volumes:

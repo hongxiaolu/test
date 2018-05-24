@@ -7,8 +7,8 @@ metadata:
 spec:
   containers:
     - name: fabric-cli
-      image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
-      imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+      image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
+      imagePullPolicy: IfNotPresent
       tty: true
       workingDir: /var/hyperledger/production
       env:
@@ -31,11 +31,11 @@ spec:
         - name: CORE_PEER_TLS_ENABLED
           value: "true"
         - name: CORE_PEER_TLS_CERT_FILE
-          value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/peers/{{ $.Values.fabricNetwork }}-peer1/tls/server.crt"
+          value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/peers/network01-peer1/tls/server.crt"
         - name: CORE_PEER_TLS_KEY_FILE
-          value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/peers/{{ $.Values.fabricNetwork }}-peer1/tls/server.key"
+          value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/peers/network01-peer1/tls/server.key"
         - name: CORE_PEER_TLS_ROOTCERT_FILE
-          value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/peers/{{ $.Values.fabricNetwork }}-peer1/tls/ca.crt"
+          value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/peers/network01-peer1/tls/ca.crt"
         - name: CORE_PEER_MSPCONFIGPATH
           value: "/var/hyperledger/production/crypto-config/peerOrganizations/{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/users/Admin@{{ include "orgName" . }}1.{{ $.Values.peerDomain }}/msp"
         - name: CORE_PEER_GOSSIP_SKIPHANDSHAKE
@@ -47,8 +47,8 @@ spec:
           mountPath: /host/var/run/docker.sock
   initContainers:
     - name: check-fabric-init
-      image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
-      imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+      image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
+      imagePullPolicy: IfNotPresent
       command: ['sh', '-c', 'until ls /var/hyperledger/production/INIT-COMPLETED; do echo waiting for fabric-init; sleep 5; done;']
       volumeMounts:
         - name: fabric-network-root
@@ -57,12 +57,12 @@ spec:
   volumes:
     - name: fabric-network-root
       hostPath:
-        path: "/data/fabric/{{ $.Values.fabricNetwork }}"
+        path: "/data/fabric/network01"
         # Below type field is necessary to avoid auto creation of dir if not present during init container check
         type: Directory
     - name: cli-data
       hostPath:
-        path: "/data/fabric/{{ $.Values.fabricNetwork }}/cli"
+        path: "/data/fabric/network01/cli"
     - name: docker-sock
       hostPath:
         path: "/var/run/docker.sock"

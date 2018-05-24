@@ -30,7 +30,7 @@ spec:
       containers:
         - name: network01-explorer
           image: {{ $.Values.dockerImageRegistry }}/fabric-explorer:1.0
-          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
               name: explorer-port

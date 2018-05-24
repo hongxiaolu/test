@@ -40,8 +40,8 @@ spec:
     spec:
       containers:
         - name: {{ $network }}-couchdb{{ $peerIndex }}
-          image: {{ $.Values.dockerImageRegistry }}/fabric-couchdb:x86_64-{{ $.Values.thirdPartyImageVersion }}
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-couchdb:x86_64-{{ $.Values.thirdPartyImageVersion }}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5984
               name: couchdb-port
@@ -52,8 +52,8 @@ spec:
             - name: couchdb-data
               mountPath: /opt/couchdb/data
         - name: {{ $network }}-peer{{ $peerIndex }}
-          image: {{ $.Values.dockerImageRegistry }}/fabric-peer:x86_64-{{ $.Values.hyperledgerFabricVersion }}
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-peer:x86_64-1.1.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 7051
               name: grpc-port
@@ -133,8 +133,8 @@ spec:
               mountPath: /host/var/run/docker.sock
       initContainers:
         - name: check-orderer
-          image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
-          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c']
           args: ['{{- range $loopIndex, $ordererIndex := untilStep 1 (int (add (int $.Values.ordererNum) 1)) 1 -}}
                     until nc -w 3 {{ $network }}-orderer{{ $ordererIndex }} 7050; do echo waiting for orderer{{ $ordererIndex }}; sleep 3; done; {{ end -}}
