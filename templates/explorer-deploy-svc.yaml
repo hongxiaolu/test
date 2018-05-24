@@ -52,4 +52,3 @@ spec:
         - name: config-json
           hostPath:
             path: "/data/fabric/network01/config/explorer/config.json"
-{{ end }}
