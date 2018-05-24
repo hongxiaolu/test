@@ -11,7 +11,7 @@ dockerImageRegistry: registry.cn-hangzhou.aliyuncs.com/cos-solution
 
 ## Public IP address for external applications to access services via NodePort
 ##
-externalAddress: 1.2.3.4
+externalAddress: 192.168.1.60
 
 ## Name of Hyperledger Fabric blockchain network
 ##
@@ -22,7 +22,7 @@ fabricNetwork: network01
 fabricChannel: bankchannel
 
 ## Number of orderers
-## 
+##
 ordererNum: 3
 
 ## Domain of orderers
@@ -67,7 +67,7 @@ peerExternalEventPortList: ["31053", "31063", "31073", "31083"]
 ##
 imagePullPolicy: IfNotPresent
 
-## Specify version of Hyperledger Fabric. 
+## Specify version of Hyperledger Fabric.
 ##
 hyperledgerFabricVersion: 1.1.0
 
