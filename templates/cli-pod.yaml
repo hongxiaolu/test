@@ -42,7 +42,7 @@ spec:
           value: "true"
       volumeMounts:
         - name: cli-data
-          mountPath: /var/hyperledger/production
+          mountPath: /var/hyperledger/production/
         - name: docker-sock
           mountPath: /host/var/run/docker.sock
   initContainers:
@@ -52,14 +52,14 @@ spec:
       command: ['sh', '-c', 'until ls /var/hyperledger/production/INIT-COMPLETED; do echo waiting for fabric-init; sleep 5; done;']
       volumeMounts:
         - name: fabric-network-root
-          mountPath: /var/hyperledger/production
+          mountPath: /var/hyperledger/production/
           readOnly: true
   volumes:
     - name: fabric-network-root
       hostPath:
-        path: "/data/fabric/network01"
+        path: "/data/fabric/network01/"
         # Below type field is necessary to avoid auto creation of dir if not present during init container check
-        type: Directory
+        #type: Directory
     - name: cli-data
       hostPath:
         path: "/data/fabric/network01/cli"

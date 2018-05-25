@@ -37,4 +37,4 @@ spec:
         hostPath:
           path: /data/fabric/network01/config
           # Below type field is necessary to avoid auto creation of dir if not present
-          type: Directory
+          #type: Directory

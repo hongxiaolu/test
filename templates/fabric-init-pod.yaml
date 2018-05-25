@@ -15,7 +15,7 @@ spec:
       command: ["/var/hyperledger/production/config/fabric-init.sh"]
       volumeMounts:
         - name: fabric-network-root
-          mountPath: /var/hyperledger/production
+          mountPath: /var/hyperledger/production/
       readinessProbe:
         exec:
           command:
@@ -30,11 +30,11 @@ spec:
       command: ['sh', '-c', 'sleep 5; until [ -f /var/hyperledger/production/GENERATION-COMPLETED ]; do echo waiting for fabric-network-generator; sleep 5; done; sleep 5;']
       volumeMounts:
         - name: fabric-network-root
-          mountPath: /var/hyperledger/production
+          mountPath: /var/hyperledger/production/
           readOnly: true
   volumes:
     - name: fabric-network-root
       hostPath:
-        path: /data/fabric/network01
+        path: /data/fabric/network01/
         # Below type field is necessary to avoid auto creation of dir if not present during init container check
-        type: Directory
+        #type: Directory
