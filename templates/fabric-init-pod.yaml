@@ -35,6 +35,6 @@ spec:
   volumes:
     - name: fabric-network-root
       hostPath:
-        path: /data/fabric/{{ $.Values.fabricNetwork }}/
+        path: /data/fabric/{{ $.Values.fabricNetwork }}
         # Below type field is necessary to avoid auto creation of dir if not present during init container check
-        #type: Directory
+        type: Directory

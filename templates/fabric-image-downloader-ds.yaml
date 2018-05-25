@@ -17,7 +17,7 @@ spec:
         - name: downloader
           image: {{ $.Values.dockerImageRegistry }}/docker
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-          command: ["/bin/sh"]
+          command: ["/bin/sh"] 
           args: ["-c", "docker pull {{ $.Values.dockerImageRegistry }}/fabric-ccenv:x86_64-{{ $.Values.hyperledgerFabricVersion }} && docker tag {{ $.Values.dockerImageRegistry }}/fabric-ccenv:x86_64-{{ $.Values.hyperledgerFabricVersion }} hyperledger/fabric-ccenv:x86_64-{{ $.Values.hyperledgerFabricVersion }} && sleep 3600"]
           volumeMounts:
           - name: docker-sock
@@ -35,6 +35,6 @@ spec:
           path: /var/run/docker.sock
       - name: config
         hostPath:
-          path: /data/fabric/{{ $.Values.fabricNetwork }}/config/
+          path: /data/fabric/{{ $.Values.fabricNetwork }}/config
           # Below type field is necessary to avoid auto creation of dir if not present
-          #type: Directory
+          type: Directory
