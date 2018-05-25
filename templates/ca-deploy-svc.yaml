@@ -1,7 +1,6 @@
 {{- $orgNum := int $.Values.orgNum -}}
 {{- range $loopIndex, $caIndex := untilStep 1 (int (add $orgNum 1)) 1 }}
 {{- $caFullName := (printf "%s-ca%d" $.Values.fabricNetwork $caIndex) -}}
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -16,4 +15,6 @@ spec:
       nodePort: {{ index $.Values.caExternalPortList $loopIndex }}
       name: ca-port
 
+---
+  
 {{- end }}

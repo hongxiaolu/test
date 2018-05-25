@@ -3,7 +3,6 @@
 {{- $network := $.Values.fabricNetwork -}}
 {{- $orgMspList := splitList " " ((include "orgMspList" .) | trimSuffix " ") -}}
 {{- range $loopIndex, $peerIndex := untilStep 1 (int (add $peerNum 1)) 1 -}}
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -22,4 +21,6 @@ spec:
       nodePort: {{ index $.Values.peerExternalEventPortList $loopIndex }}
       name: event-port
 
+---
+  
 {{- end -}}

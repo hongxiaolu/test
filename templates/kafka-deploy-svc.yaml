@@ -2,7 +2,6 @@
 {{- $portList := list 9092 9093 9094 9095 -}}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $brokerIndex := untilStep 1 (int (add $brokerNum 1)) 1 -}}
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -16,5 +15,7 @@ spec:
     - protocol: TCP
       port: {{ index $portList $loopIndex }}
       name: kafka-port
+
+---
 
 {{- end -}}

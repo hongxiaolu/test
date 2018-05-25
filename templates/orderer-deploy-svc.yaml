@@ -1,7 +1,6 @@
 {{- $ordererNum := int $.Values.ordererNum }}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $ordererIndex := untilStep 1 (int (add $ordererNum 1)) 1 -}}
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -15,5 +14,7 @@ spec:
       port: 7050
       nodePort: {{ index $.Values.ordererExternalPortList $loopIndex }}
       name: orderer-port
+
+---
 
 {{- end -}}
