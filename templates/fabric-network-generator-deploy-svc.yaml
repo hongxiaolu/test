@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: generator
-          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-network-generator:2.1
+          image: {{ $.Values.dockerImageRegistry }}/fabric-network-generator:2.1
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
@@ -55,7 +55,7 @@ spec:
             exec:
               command:
               - ls
-              - /output/fabric/network01/GENERATION-COMPLETED
+              - /output/fabric/{{ $.Values.fabricNetwork }}/GENERATION-COMPLETED
             initialDelaySeconds: 5
             periodSeconds: 5
       volumes:

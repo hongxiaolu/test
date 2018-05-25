@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: downloader
-          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/docker
-          imagePullPolicy: IfNotPresent
+          image: {{ $.Values.dockerImageRegistry }}/docker
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           command: ["/bin/sh"]
-          args: ["-c", "docker pull registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-ccenv:x86_64-1.1.0 && docker tag registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-ccenv:x86_64-1.1.0 hyperledger/fabric-ccenv:x86_64-1.1.0 && sleep 3600"]
+          args: ["-c", "docker pull {{ $.Values.dockerImageRegistry }}/fabric-ccenv:x86_64-{{ $.Values.hyperledgerFabricVersion }} && docker tag {{ $.Values.dockerImageRegistry }}/fabric-ccenv:x86_64-{{ $.Values.hyperledgerFabricVersion }} hyperledger/fabric-ccenv:x86_64-{{ $.Values.hyperledgerFabricVersion }} && sleep 3600"]
           volumeMounts:
           - name: docker-sock
             mountPath: /var/run/docker.sock
@@ -28,13 +28,13 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ["/bin/sh", "-c", "/config/clean-docker-containers-images.sh -a dev-network01"]
+                command: ["/bin/sh", "-c", "/config/clean-docker-containers-images.sh -a dev-{{ $.Values.fabricNetwork }}"]
       volumes:
       - name: docker-sock
         hostPath:
           path: /var/run/docker.sock
       - name: config
         hostPath:
-          path: /data/fabric/network01/config
+          path: /data/fabric/{{ $.Values.fabricNetwork }}/config/
           # Below type field is necessary to avoid auto creation of dir if not present
           #type: Directory

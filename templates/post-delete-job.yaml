@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}"
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        heritage: {{ .Release.Service | quote }}
+        release: {{ .Release.Name | quote }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-delete-job
+        image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
+        # For safety, we don't really delete the data folder but just rename with suffix and timestamp
+        command: ["/bin/sh","-c"]
+        args: ['mv /data/fabric/{{ $.Values.fabricNetwork }} /data/fabric/{{ $.Values.fabricNetwork }}-deleted-{{ now | date "2006-01-02-150405"}}']
+        # command: ['mv','/data/fabric/{{ $.Values.fabricNetwork }}', '/data/fabric/{{ $.Values.fabricNetwork }}-deleted-{{ now | date "2006-01-02-150405"}}']
+        volumeMounts:
+          - name: fabric-root
+            mountPath: /data/fabric
+      volumes:
+        - name: fabric-root
+          hostPath:
+            path: "/data/fabric"

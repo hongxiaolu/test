@@ -6,7 +6,7 @@ home: https://hyperledger.org/projects/fabric
 maintainers:
 - email: yushan.ys@alibaba-inc.com
   name: Shan Yu
-name: test
+name: ack-hyperledger-fabric
 sources:
 - https://github.com/hyperledger/fabric
-version: 0.2.2
+version: 0.2.3

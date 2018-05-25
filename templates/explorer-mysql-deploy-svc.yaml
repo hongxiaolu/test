@@ -1,10 +1,11 @@
+{{- $network := $.Values.fabricNetwork -}}
 kind: Service
 apiVersion: v1
 metadata:
-  name: network01-explorer-mysql
+  name: {{ $network }}-explorer-mysql
 spec:
   selector:
-    app: network01-explorer-mysql
+    app: {{ $network }}-explorer-mysql
   ports:
     - protocol: TCP
       port: 3306
@@ -12,23 +13,23 @@ spec:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: network01-explorer-mysql-deployment
+  name: {{ $network }}-explorer-mysql-deployment
   labels:
-    app: network01-explorer-mysql
+    app: {{ $network }}-explorer-mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: network01-explorer-mysql
+      app: {{ $network }}-explorer-mysql
   template:
     metadata:
       labels:
-        app: network01-explorer-mysql
+        app: {{ $network }}-explorer-mysql
     spec:
       containers:
-        - name: network01-explorer-mysql
-          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-explorer-mysql:1.0
-          imagePullPolicy: IfNotPresent
+        - name: {{ $network }}-explorer-mysql
+          image: {{ $.Values.dockerImageRegistry }}/fabric-explorer-mysql:1.0
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: 3306
               name: mysql-port

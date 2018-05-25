@@ -1,0 +1,1 @@
+docker cp $1  f47230c40c9e:/work/fabric/ack-hyperledger-fabric/templates

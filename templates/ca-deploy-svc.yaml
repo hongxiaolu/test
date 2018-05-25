@@ -34,9 +34,9 @@ spec:
     spec:
       containers:
         - name: {{ $caFullName }}
-          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-ca:x86_64-1.1.0
-          imagePullPolicy: IfNotPresent
-          workingDir: /var/hyperledger/production/
+          image: {{ $.Values.dockerImageRegistry }}/fabric-ca:x86_64-{{ $.Values.hyperledgerFabricVersion }}
+          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
+          workingDir: /var/hyperledger/production
           ports:
           - containerPort: 7054
             name: ca-port
@@ -60,24 +60,24 @@ spec:
               value: "/var/hyperledger/production/config/private-key"
           volumeMounts:
             - name: data
-              mountPath: /var/hyperledger/production/
+              mountPath: /var/hyperledger/production
       initContainers:
         - name: check-fabric-init
-          image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-tools:x86_64-1.1.0
-          imagePullPolicy: IfNotPresent
+          image: {{ $.Values.dockerImageRegistry }}/fabric-tools:x86_64-{{ $.Values.hyperledgerFabricVersion }}
+          imagePullPolicy: {{ $.Values.imagePullPolicy | quote }}
           command: ['sh', '-c', 'sleep 5; until ls /var/hyperledger/production/INIT-COMPLETED; do echo waiting for fabric-init; sleep 5; done; sleep 5;']
           volumeMounts:
             - name: fabric-network-root
-              mountPath: /var/hyperledger/production/
+              mountPath: /var/hyperledger/production
               readOnly: true
       volumes:
         - name: fabric-network-root
           hostPath:
-            path: /data/fabric/network01/
+            path: /data/fabric/{{ $.Values.fabricNetwork }}/
             # Below type field is necessary to avoid auto creation of dir if not present during init container check
             #type: Directory
         - name: data
           hostPath:
-            path: /data/fabric/network01/{{ $caFullName }}/
+            path: /data/fabric/{{ $.Values.fabricNetwork }}/{{ $caFullName }}
 #end
 {{- end }}

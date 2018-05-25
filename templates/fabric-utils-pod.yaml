@@ -7,6 +7,7 @@ metadata:
 spec:
   containers:
     - name: fabric-utils
-      image: registry.cn-hangzhou.aliyuncs.com/cos-solution/fabric-utils:latest
-      imagePullPolicy: IfNotPresent
+      image: {{ $.Values.dockerImageRegistry }}/fabric-utils:latest
+      imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
       tty: true
+  
