@@ -1,7 +1,6 @@
 {{- $zkNum := 3 -}}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $zkIndex := untilStep 1 (int (add $zkNum 1)) 1 -}}
-
 kind: Service
 apiVersion: v1
 metadata:
@@ -19,6 +18,7 @@ spec:
     - protocol: TCP
       port: 3888
       name: election-port
+
 ---
 
 {{- end -}}

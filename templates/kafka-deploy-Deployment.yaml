@@ -2,7 +2,6 @@
 {{- $portList := list 9092 9093 9094 9095 -}}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $brokerIndex := untilStep 1 (int (add $brokerNum 1)) 1 -}}
-
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:

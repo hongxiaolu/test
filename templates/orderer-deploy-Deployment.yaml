@@ -1,7 +1,6 @@
 {{- $ordererNum := int $.Values.ordererNum }}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $ordererIndex := untilStep 1 (int (add $ordererNum 1)) 1 -}}
-
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
