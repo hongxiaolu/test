@@ -9,4 +9,4 @@ maintainers:
 name: test
 sources:
 - https://github.com/hyperledger/fabric
-version: 0.2.1
+version: 0.2.2
