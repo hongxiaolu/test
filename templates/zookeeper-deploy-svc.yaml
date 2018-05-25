@@ -1,13 +1,12 @@
 {{- $zkNum := 3 -}}
-{{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $zkIndex := untilStep 1 (int (add $zkNum 1)) 1 -}}
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ $network }}-zookeeper{{ $zkIndex }}
+  name: network01-zookeeper{{ $zkIndex }}
 spec:
   selector:
-    app: {{ $network }}-zookeeper{{ $zkIndex }}
+    app: network01-zookeeper{{ $zkIndex }}
   ports:
     - protocol: TCP
       port: 2181
@@ -18,7 +17,7 @@ spec:
     - protocol: TCP
       port: 3888
       name: election-port
-
+      
 ---
 
 {{- end -}}
