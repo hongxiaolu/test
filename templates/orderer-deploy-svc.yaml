@@ -1,7 +1,6 @@
 {{- $ordererNum := int $.Values.ordererNum }}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $ordererIndex := untilStep 1 (int (add $ordererNum 1)) 1 -}}
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -76,6 +75,7 @@ spec:
         - name: data
           hostPath:
             path: "/data/fabric/{{ $network }}/{{ $network }}-orderer{{ $ordererIndex }}"
-#end
+
+---
 
 {{- end -}}

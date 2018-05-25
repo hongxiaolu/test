@@ -3,7 +3,6 @@
 {{- $network := $.Values.fabricNetwork -}}
 {{- $orgMspList := splitList " " ((include "orgMspList" .) | trimSuffix " ") -}}
 {{- range $loopIndex, $peerIndex := untilStep 1 (int (add $peerNum 1)) 1 -}}
----
 kind: Service
 apiVersion: v1
 metadata:
@@ -149,5 +148,7 @@ spec:
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
-#end
+
+---
+
 {{- end -}}
