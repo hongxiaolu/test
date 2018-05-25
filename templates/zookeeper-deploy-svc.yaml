@@ -19,6 +19,4 @@ spec:
       port: 3888
       name: election-port
 
----
-
 {{- end -}}
