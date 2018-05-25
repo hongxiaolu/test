@@ -42,6 +42,5 @@ spec:
           hostPath:
             path: "/data/fabric/{{ $network }}/config/explorer/config.json"
 
----
 
 {{ end }}

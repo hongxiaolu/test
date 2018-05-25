@@ -16,6 +16,4 @@ spec:
       port: {{ index $portList $loopIndex }}
       name: kafka-port
 
----
-
 {{- end -}}

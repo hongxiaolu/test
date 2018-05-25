@@ -61,7 +61,6 @@ spec:
         - name: data
           hostPath:
             path: "/data/fabric/{{ $network }}/{{ $network }}-orderer{{ $ordererIndex }}"
-#end
----
-  
+
+
 {{- end -}}

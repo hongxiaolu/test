@@ -65,7 +65,5 @@ spec:
         - name: data
           hostPath:
             path: /data/fabric/{{ $network }}/{{ $network }}-kafka{{ $brokerIndex }}
-#end
----
-  
+
 {{- end -}}

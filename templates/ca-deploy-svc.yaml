@@ -15,6 +15,4 @@ spec:
       nodePort: {{ index $.Values.caExternalPortList $loopIndex }}
       name: ca-port
 
----
-
 {{- end }}

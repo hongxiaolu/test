@@ -21,6 +21,4 @@ spec:
       nodePort: {{ index $.Values.peerExternalEventPortList $loopIndex }}
       name: event-port
       
----
-
 {{- end -}}
