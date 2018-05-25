@@ -1,7 +1,6 @@
 {{- $zkNum := 3 -}}
 {{- $network := $.Values.fabricNetwork -}}
 {{- range $loopIndex, $zkIndex := untilStep 1 (int (add $zkNum 1)) 1 -}}
----
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -67,5 +66,6 @@ spec:
         - name: data-log
           hostPath:
             path: /data/fabric/{{ $network }}/{{ $network }}-zookeeper{{ $zkIndex }}/data-log
+---
 
 {{- end -}}
