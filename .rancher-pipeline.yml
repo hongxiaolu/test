@@ -1,10 +1,10 @@
 stages:
-- name: "111111111111111111111111ddddddddddddddddddd11"
+- name: 111111111111111111111111ddddddddddddddddddd11
   steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: library/demo
+      tag: hongxiaolu/test:${CICD_GIT_COMMIT}
       pushRemote: true
       registry: index.docker.io
 timeout: 60
