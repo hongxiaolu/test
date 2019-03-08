@@ -7,4 +7,7 @@ stages:
       tag: hongxiaolu/test:${CICD_GIT_COMMIT}
       pushRemote: true
       registry: index.docker.io
+  - runScriptConfig:
+      image: php:latest
+      shellScript: ls
 timeout: 60
