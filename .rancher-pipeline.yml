@@ -7,6 +7,8 @@ stages:
       tag: hongxiaolu/test:${CICD_GIT_COMMIT}
       pushRemote: true
       registry: index.docker.io
+    env:
+      PLUGIN_TAG: test
   - runScriptConfig:
       image: php:latest
       shellScript: ls
