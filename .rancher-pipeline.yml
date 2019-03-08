@@ -9,4 +9,5 @@ stages:
       registry: index.docker.io
     env:
       PLUGIN_TAG: test
+      PLUGIN_STORAGE_PATH: /var/lib/docker2
 timeout: 60
