@@ -9,7 +9,4 @@ stages:
       registry: index.docker.io
     env:
       PLUGIN_TAG: test
-  - runScriptConfig:
-      image: php:latest
-      shellScript: ls
 timeout: 60
