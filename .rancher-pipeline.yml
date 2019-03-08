@@ -8,6 +8,9 @@ stages:
       pushRemote: true
       registry: index.docker.io
     env:
-      PLUGIN_TAG: test
       PLUGIN_STORAGE_PATH: /var/lib/docker2
+      PLUGIN_TAG: test
+  - runScriptConfig:
+      image: docker:dind
+      shellScript: ls
 timeout: 60
