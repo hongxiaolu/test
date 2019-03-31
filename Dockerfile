@@ -1,4 +1,7 @@
-FROM alpine
+FROM ubuntu
 
-RUN apk add --no-cache curl 
-RUN curl -L -o /home/centos.box https://vagrantcloud.com/centos/boxes/7/versions/1902.01/providers/virtualbox.box
+RUN apt-get update && apt-get install -y packer curl wget git 
+
+RUN git clone https://github.com/xiaoluhong/bento.git \
+    && cd bento/ubuntu \
+    && packer build -only=virtualbox-iso ubuntu-16.04-amd64.json
