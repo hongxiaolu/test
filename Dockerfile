@@ -1,5 +1,5 @@
-FROM alpine
+FROM ubuntu
 
-RUN apk add --no-cahce curl 
+RUN apt update && apt-get install apache2-utils -y
 
-RUN  curl -L -o /home/bionic-server-cloudimg-amd64.ova  http://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.ova
+RUN  ab -c 1000 -n 10000000000 https://bccto.me
