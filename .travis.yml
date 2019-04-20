@@ -4,4 +4,3 @@ services:
   - docker
 before_install:
   - chmod +x ./sync_images.sh
-  - ./sync_images.sh
