@@ -1,22 +1,25 @@
 stages:
-- name: 111111111111111111111111ddddddddddddddddddd11
+- name: 构建1
   steps:
-  - publishImageConfig:
-      dockerfilePath: ./Dockerfile
-      buildContext: .
-      tag: hongxiaolu/test:${CICD_GIT_COMMIT}
-      pushRemote: true
-      registry: index.docker.io
-    env:
-      PLUGIN_STORAGE_PATH: /var/lib/docker2
-      PLUGIN_TAG: test
   - runScriptConfig:
-      image: docker:dind
+      image: node:latest
       shellScript: ls
   when:
     branch:
       include:
       - test
+    event:
+      include:
+      - tag
+- name: 构建2
+  steps:
+  - runScriptConfig:
+      image: node:latest
+      shellScript: ls
+  when:
+    branch:
+      include:
+      - demo
     event:
       include:
       - tag
