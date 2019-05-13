@@ -13,4 +13,12 @@ stages:
   - runScriptConfig:
       image: docker:dind
       shellScript: ls
+  when:
+    branch:
+      include:
+      - test
+    event:
+      include:
+      - tag
 timeout: 60
+notification: {}
