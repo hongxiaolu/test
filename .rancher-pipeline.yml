@@ -1,12 +1,11 @@
 stages:
-- name: clone
+- name: Clone
   steps:
   - sourceCodeConfig: {}
     env:
       HTTP_PROXY: http://192.168.100.100:8888
       HTTPS_PROXY: http://192.168.100.100:8888
       NO_PROXY: abc,def
-
 - name: "1"
   steps:
   - env:
