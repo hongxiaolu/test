@@ -1,0 +1,8 @@
+stages:
+- name: "1"
+  steps:
+  - runScriptConfig:
+      image: alpine
+      shellScript: ls
+timeout: 60
+notification: {}
