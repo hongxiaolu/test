@@ -5,35 +5,23 @@ stages:
       image: node:latest
       shellScript: ls
   when:
-    branch:
-      include:
-      - test
-    event:
-      include:
-      - tag
+    branch: {}
+    event: {}
 - name: 构建2
   steps:
   - runScriptConfig:
       image: node:latest
       shellScript: ls
   when:
-    branch:
-      include:
-      - demo
-    event:
-      include:
-      - tag
+    branch: {}
+    event: {}
 - name: 部署1
   steps:
   - applyYamlConfig:
       path: ./deployment.yaml
   when:
-    branch:
-      include:
-      - test
-    event:
-      include:
-      - tag
+    branch: {}
+    event: {}
 - name: 部署2
   steps:
   - applyYamlConfig:
