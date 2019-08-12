@@ -1,12 +1,10 @@
 stages:
-- name: Clone
+- name: "1"
   steps:
   - env:
       HTTP_PROXY: http://192.168.100.100:8888
       HTTPS_PROXY: http://192.168.100.100:8888
       NO_PROXY: abc,def
-- name: "1"
-  steps:
   - runScriptConfig:
       image: alpine
       shellScript: ls
