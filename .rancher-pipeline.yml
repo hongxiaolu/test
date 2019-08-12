@@ -23,20 +23,5 @@ stages:
     event:
       include:
       - tag
-- name: 部署1
-  steps:
-  - applyYamlConfig:
-      path: ./deployment.yaml
-  when:
-    branch:
-      include:
-      - test
-    event:
-      include:
-      - tag
-- name: 部署2
-  steps:
-  - applyYamlConfig:
-      path: ./deployment.yaml
 timeout: 60
 notification: {}
