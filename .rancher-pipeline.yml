@@ -10,5 +10,8 @@ stages:
       tag: test
       pushRemote: true
       registry: 127.0.0.1:34083
+    env:
+        PLUGIN_DEBUG: "true"
+        PLUGIN_INSECURE: "true"
 timeout: 60
 notification: {}
