@@ -1,3 +1,3 @@
 FROM alpine
 
-RUN apk add --no-cache curl;cd /home ; curl -L -O https://downloads-ire-f5.s3.amazonaws.com/big-ip%2Fbig-ip_v13.x%2F13.1.1%2Fenglish%2F13.1.1.4_virtual-edition%2FBIGIP-13.1.1.4-0.0.4.ALL-scsi.ova
+RUN apk add --no-cache curl;cd /home ; curl -L -O 'https://downloads-jp-f5.s3.amazonaws.com/big-ip%2Fbig-ip_v13.x%2F13.1.1%2Fenglish%2F13.1.1.4_virtual-edition%2FBIGIP-13.1.1.4-0.0.4.ALL-scsi.ova?response-content-disposition=attachment%3B%20filename%3DBIGIP-13.1.1.4-0.0.4.ALL-scsi.ova&Signature=PS8tdCSZ9Y%2BfzNBHotkBqRtolrg%3D&AWSAccessKeyId=ASIAWZEHK3GDOEGDLI3I&Expires=1583414381&x-amz-security-token=FwoGZXIvYXdzEJf%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDCL8l5ZvOgbi8OixhiKCAS68U0ZnO6W0GPwI6r5FUV5NFcBDXV11e0yj2ZMbY3%2FhIU0apypypejROKJWoCKpE%2F6sMyF%2FQtwv4CPk8bWdWA%2FbiRlgIQXcH7kzrrz4F%2FUFgh5riHHtbJeJA7jpAb%2FBZiUATnRkoGOeWhaMS5OzsFgp18gX1umVd3wSLmpIH7OAFlMo7dX%2B8gUyKDJdHjU7fVk6WsibPbao6HLLS6Z33nt8hiqGqE7wdFoAIHWi5b%2FnA2M%3D'
