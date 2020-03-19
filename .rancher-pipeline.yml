@@ -13,4 +13,17 @@ stages:
   - runScriptConfig:
       image: docker:dind
       shellScript: ls
+- name: build
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: demoapp
+      registry: 127.0.0.1:34083
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
 timeout: 60
+branch: {}
+notification: {}
