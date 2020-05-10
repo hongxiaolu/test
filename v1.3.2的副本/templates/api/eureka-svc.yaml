@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  {{ if .Values.eureka.service.name -}}
+  name: {{ .Values.deployEnv }}-{{ .Values.tenant.tenantEnv}}-{{ .Values.eureka.service.name }}
+  {{- else }}
+  name: {{ template "fullname" . }}
+  {{- end }}
+  labels:
+    app: {{ .Values.deployEnv }}-{{ .Values.tenant.tenantEnv}}-{{ .Values.eureka.service.name }}
+spec:
+  type: {{ .Values.eureka.service.type }}
+  ports:
+    - port: {{ .Values.eureka.containerport }}
+      targetPort: {{ .Values.eureka.containerport }}
+    {{- if .Values.eureka.service.nodePort }}      
+      nodePort: {{ .Values.eureka.service.nodePort }}
+    {{- end }}
+      protocol: TCP
+  selector:
+    app: {{ .Values.deployEnv }}-{{ .Values.tenant.tenantEnv}}-{{ .Values.eureka.service.name }}
