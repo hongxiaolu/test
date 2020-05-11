@@ -1,0 +1,101 @@
+# Default values for tenant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+#部署于不同环境，覆盖这些值，用于组合指定服务名格式
+deployEnv: stage
+
+tenant:
+  enabled: true
+  tenantEnv: ""
+  username-eureka: admin
+  password-eureka: ""
+  MYSQL_USER: admin
+  MYSQL_PASSWORD: ""
+
+#每个服务使用不同的镜像，以及相同仓库下不同项目
+#B端工程
+eureka:
+  containerport: 9999 
+  service:
+    type: NodePort
+    nodePort: ""
+    name: eureka    
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/brand-dev/tenant-eureka
+    tag: v1.3.1_201906211927-c4d4ac7f-b19
+#C端工程    
+appointment:
+  containerport: 9004
+  service:
+    type: ClusterIP
+    name: appointment
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/biz-dev/tenant-appointment-server
+    tag: v1.3.1_201906221215-511cba84-b244
+
+businessusers:
+  containerport: 9002
+  service:
+    type: ClusterIP
+    name: businessusers
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/biz-dev/tenant-businessusers-server
+    tag: v1.3.1_201906211949-de8a30f8-b121
+
+
+auditing:
+  containerport: 2222
+  service:
+    name: auditing
+    type: ClusterIP
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/tenant-dev/tenant-auditing
+    tag: v1.3.1_201906211628-2e5d4e40-b71
+
+#以下是整个项目相同的部分
+#副本数
+replicaCount: 1
+
+#仓库
+imagePullSecrets:
+  name: aliyun
+
+#镜像拉取策略
+image:
+  pullPolicy: IfNotPresent
+  
+nameOverride: ""
+fullnameOverride: ""
+
+#健康检查
+livenessProbe:
+  enabled: true
+  path: /actuator/health
+  port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 20
+readinessProbe:
+  enabled: true
+  path: /actuator/health
+  port: 8081
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+#资源限制
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
