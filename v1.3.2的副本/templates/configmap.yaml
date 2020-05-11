@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.deployEnv }}-{{ .Values.tenant.tenantEnv}}-configmap"
+  labels:
+    app: "{{ .Values.deployEnv }}-{{ .Values.tenant.tenantEnv}}-configmap"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  eureka.client.service-url.defaultZone: http://{{ .Values.deployEnv }}-{{ .Values.tenant.tenantEnv}}-{{ .Values.eureka.service.name }}:9999/eureka/
+  host-db: {{ default "127.0.0.1" .Values.mysqlUrl | quote }}
+  port-db: {{ default "3306" .Values.myqslPort | quote }}
+  host-redis: {{ default "127.0.0.1" .Values.redisUrl | quote }}
+  port-redis: {{ default "127.0.0.1" .Values.redisPort | quote }}
+  spring.redis.host: {{ default "127.0.0.1" .Values.redisUrl | quote }} 
+  spring.redis.port: {{ default "6379" .Values.redisPort | quote }}
+  firstLoginUrl: {{ default "https://arrail-test.5i5ya.com/user/firstLogin?accountNumber=" .Values.firstLoginUrl | quote }}
+  loginUrl.business: {{ default "https://arrail-test.5i5ya.com/user/login?tenantId=" .Values.loginUrlBusiness | quote }}
+  loginUrl.tenant: {{ default "https://arrail-admin-test.5i5ya.com/user/login?tenantId=" .Values.loginUrlTenant | quote }}
+  mappingUrl: http://{{ .Values.deployEnv }}-platform-mapping.{{ .Values.deployEnv }}-platform:8580
+{{- if .Values.tenant.tenantEnv }}
+  tenant: {{ default "" .Values.tenant.tenantEnv }}
+  spring.data.elasticsearch.cluster-name: ""
+  spring.data.elasticsearch.cluster-nodes: ""
+  elasticsearch-name: ""
+{{- end }}   
+  logging.level.org.springframework.security: {{ default "INFO" .Values.loggingLevel | quote }}
+  logging.level.com.arrail: {{ default "INFO" .Values.loggingLevel | quote }}
+  #以下配置基本不变  
+  spring.datasource.testOnBorrow: "true"
+  logging.pattern.console: "[${spring.application.name}]: %d %-5level [%thread] %logger : %msg%n"
+  TZ: "Asia/Shanghai"
+  spring.cloud.config.enabled: "false"
+  spring.redis.timeout: "10000"
+  feign.client.config.default.connect-timeout: "30000"
+  feign.client.config.default.read-timeout: "30000"
+  feign.hystrix.enabled: "false"
+  zuul.semaphore.max-semaphores: "1000"
+  spring.cloud.config.enabled: "false"
+  management.server.port: "8081"
+  management.endpoint.health.show-details: "always"
+  server.tomcat.accesslog.buffered: "false"
+  server.tomcat.accesslog.enabled: "true"
+  server.tomcat.basedir: /tmp/tomcat/ 
